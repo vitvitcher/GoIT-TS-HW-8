@@ -5,12 +5,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { fetchNotes } from '../../../../lib/api'
 import SearchBox from '../../../../components/SearchBox/SearchBox';
 import NoteList from '../../../../components/NoteList/NoteList';
-import Modal from '../../../../components/Modal/Modal';
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 import Pagination from '../../../../components/Pagination/Pagination';
-import useModalControl from '../../../../hooks/ModalControl';
-import NoteForm from '../../../../components/NoteForm/NoteForm';
 import { useDebouncedCallback } from 'use-debounce';
+import Link from 'next/link';
 
 interface NotesClientProps {
     tag: string | undefined
@@ -21,7 +19,6 @@ function NotesClient({ tag }: NotesClientProps) {
     const notify = () => toast.error('No notes found for your request.');
     const [currentPage, setCurrentPage] = useState(1);
     const [query, setQuery] = useState("");
-    const { isModalOpen, openModal, closeModal } = useModalControl()
 
     const { data, isSuccess } = useQuery({
         queryKey: ['notes', query, currentPage, tag],
@@ -58,14 +55,10 @@ function NotesClient({ tag }: NotesClientProps) {
                             currentPage={currentPage}
                             totalPages={totalPages}
                             onPageChange={setCurrentPage}></Pagination>}
-                    <button className={css.button}
-                        onClick={() => openModal()}>Create note +</button>
+                    <Link className={css.button} href={'/notes/action/create'}>Create note +</Link>
                 </header>
                 <Toaster></Toaster>
                 {data && data.notes.length > 0 && <NoteList notes={data.notes}></NoteList>}
-                {isModalOpen && <Modal onClose={() => closeModal()}>
-                    <NoteForm onCancel={() => closeModal()}></NoteForm>
-                </Modal>}
             </div >
         </>
     )
