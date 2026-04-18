@@ -1,6 +1,6 @@
 'use client'
 
-//import { useId } from 'react';
+import { useId } from 'react';
 import type { Note, NoteBody } from '../../types/note';
 import css from './NoteForm.module.css'
 //import * as Yup from "yup";
@@ -23,7 +23,7 @@ import { useRouter } from 'next/navigation';
 // });
 
 export default function NoteForm() {
-    //const fieldId = useId();
+    const fieldId = useId();
     const { draft, setDraft, clearDraft } = useNoteDraftStore();
     const queryClient = useQueryClient();
     const router = useRouter()
@@ -57,73 +57,25 @@ export default function NoteForm() {
 
     return (
 
-        //     <Formik initialValues={initialValues}
-        //         onSubmit={handleSubmit}
-        //         validationSchema={NoteFormSchema}>
-        //         <Form className={css.form}>
-        //             <div className={css.formGroup}>
-        //                 <label htmlFor={`${fieldId}-title`}>Title</label>
-        //                 <Field type="text" name="title" id={`${fieldId}-title`}
-        //                     defaultValue={draft?.title} onChange={handleChange}
-        //                     className={css.input} />
-        //                 <ErrorMessage name="title" component="span" className={css.error} />
-        //             </div>
-        //             <div className={css.formGroup}>
-        //                 <label htmlFor={`${fieldId}-content`}>Content</label>
-        //                 <Field as="textarea" name="content" id={`${fieldId}-content`}
-        //                     defaultValue={draft?.content} onChange={handleChange}
-        //                     rows={8} className={css.textarea} />
-        //                 <ErrorMessage name="content" component="span" className={css.error} />
-        //             </div>
-        //             <div className={css.formGroup}>
-        //                 <label htmlFor={`${fieldId}-tag`}>Tag</label>
-        //                 <Field as="select" name="tag" id={`${fieldId}-tag`}
-        //                     defaultValue={draft?.ta} onChange={handleChange}
-        //                     className={css.select} >
-        //                     <option value="Todo">Todo</option>
-        //                     <option value="Work">Work</option>
-        //                     <option value="Personal">Personal</option>
-        //                     <option value="Meeting">Meeting</option>
-        //                     <option value="Shopping">Shopping</option>
-        //                 </Field>
-        //                 <ErrorMessage name="tag" component="span" className={css.error} />
-        //             </div>
-        //             <div className={css.actions}>
-        //                 <button type="button"
-        //                     className={css.cancelButton}
-        //                     onClick={onCancel}>
-        //                     Cancel
-        //                 </button>
-        //                 <button
-        //                     type="submit"
-        //                     className={css.submitButton}
-        //                     disabled={false}
-        //                 >
-        //                     Create note
-        //                 </button>
-        //             </div>
-        //         </Form>
-        //     </Formik>
-        // )
-
         <form className={css.form} action={handleSubmit}>
             <div className={css.formGroup}>
-                <label className={css.label} htmlFor='title'></label>
-                Title
-                <input type="text" name="title" className={css.input}
+                <label className={css.label} htmlFor={`${fieldId}-title`}>
+                    Title</label>
+                <input type="text" name="title" id={`${fieldId}-title`} className={css.input}
                     defaultValue={draft?.title} onChange={handleChange} />
 
             </div>
             <div className={css.formGroup}>
-                <label className={css.label} htmlFor='content'> </label>
-                Content
-                <textarea className={css.textarea} name="content" defaultValue={draft?.content} onChange={handleChange}></textarea>
+                <label className={css.label} htmlFor={`${fieldId}-content`}>
+                    Content</label>
+                <textarea className={css.textarea} id={`${fieldId}-content`} name="content" defaultValue={draft?.content} onChange={handleChange}></textarea>
 
             </div>
             <div className={css.formGroup}>
-                <label className={css.label} htmlFor='tag'>
+                <label className={css.label} htmlFor={`${fieldId}-tag`}>
                     Tag </label>
-                <select className={css.select} name="tag" defaultValue={draft?.tag} onChange={handleChange} >
+                <select className={css.select} id={`${fieldId}-tag`}
+                    name="tag" defaultValue={draft ? draft.tag : "Todo"} onChange={handleChange} >
                     <option value="Todo">Todo</option>
                     <option value="Work">Work</option>
                     <option value="Personal">Personal</option>
